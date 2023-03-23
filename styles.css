@@ -1,0 +1,320 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Montserrat:wght@500&display=swap');
+
+  /* variables */
+:root{
+  --Light-text: rgb(255, 255, 255);
+  --dark-text: hsl(229, 25%, 31%);
+  --score-text: hsl(229, 64%, 46%);
+  --outline: hsl(217, 16%, 46%);
+  --background-grad-1: rgb(31, 55, 86);
+  --background-grad-2: rgb(20, 21, 57);
+  --scissors-1: hsl(39, 89%, 49%); 
+  --scissors-2: hsl(40, 84%, 53%);
+  --paper-grad-1: hsl(230, 89%, 62%);
+  --paper-grad-2: rgb(86, 113, 245);
+  --rock-grad-1: hsl(349, 71%, 52%);
+  --rock-grad-2: hsl(349, 70%, 56%);   
+  --light-shadow: rgba(0, 0, 0, 0.149);
+  --mid-shadow: rgba(0, 0, 0, 0.302);
+  --header-text: hsl(217, 16%, 45%);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  
+}
+
+body{
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  background: radial-gradient(at top,var(--background-grad-1),var(--background-grad-2));
+  min-height: 100vh;
+  color: var(--Light-text);
+}
+
+/* main container */
+.container{
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 150px;
+  border: 3px solid var(--outline);
+  border-radius: 20px;
+  padding: 1rem 4rem 1rem 2rem;
+}
+.logo img {
+height: 100%;
+}
+.score{
+  display: flex; /* because we have items within it*/
+flex-direction: column;/* so that they are vertical*/
+align-items: center;
+justify-content: center;
+background: #fff;
+border-radius: 10px;
+width: 150px;
+height: 100px;
+line-height: 1;
+}
+.score_title{
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: var(--score-text);
+
+}
+
+.score_number{
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--dark-text);
+}
+
+
+/*game*/
+.game{
+  position: relative;
+  display: grid;
+  grid-template-columns: (repeat(2, 1fr));
+  grid-template-areas:
+  "paper scissors"
+  "rock rock";
+  place-items: center;
+  height: 30rem;
+  padding-top: 4rem;
+}
+.game::after{
+  background-image: url(./images/bg-triangle.svg);
+  background-repeat: no-repeat;
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  height: 50%;
+  width: 50%;
+  z-index: -1;
+  background-size: cover;
+}
+
+/*working on the buttons*/
+.choice{
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  background: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0.5rem var(--light-shadow);
+}
+
+.choice img{
+  transform: scale(1.5);
+}
+
+.choice::before,
+.choice::after{
+  content: '';
+  position: absolute;
+  left: -15%;
+  top: -15%;
+  width: 130%;
+  height: 130%;
+  border-radius: 50%;
+  z-index: -1;
+ 
+}
+.choice::after{
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.choice-btn:focus .choice::after{
+  opacity: 1;
+  box-shadow: 0 0 0 2rem #223351;
+  z-index: -2;
+}
+/*applying the linear gradients around the choices*/
+.choice.paper::before{
+  background: linear-gradient(to bottom, var(--paper-grad-1), var(--paper-grad-2));
+  box-shadow: 0 0.5rem var(--mid-shadow), 0 0.5rem var(--paper-grad-2);
+}
+.choice.scissors::before{
+  background: linear-gradient(to bottom, var(--scissors-1), var(--scissors-2));
+  box-shadow: 0 0.5rem var(--mid-shadow), 0 0.5rem var(--scissors-2);
+  
+}
+.choice.rock::before{
+  background: linear-gradient(to bottom, var(--rock-grad-1), var(--rock-grad-2));
+  box-shadow: 0 0.5rem var(--mid-shadow), 0 0.5rem var(--rock-grad-2);
+}
+.choice-btn{
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+.choice-btn[data-choice = 'paper']{
+  grid-area: paper;
+}
+
+.choice-btn[data-choice = 'scissors']{
+  grid-area: scissors;
+}
+
+.choice-btn[data-choice = 'rock']{
+  grid-area: rock;
+}
+/*Result*/
+
+.results{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+  grid-template-areas: 
+  "you-title ai-title"
+  "you-picked ai-picked";
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.results_heading{
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  padding: 4rem 0 8rem;
+}
+.results_result{
+  min-width: 10rem;
+  min-height: 10rem;
+  background: #16213d;
+  border-radius: 50%;
+  transform: scale(1.4);
+  z-index: -1;
+}
+.results_heading:first-of-type{
+  grid-area: you-title;
+  }
+
+  .results_heading:last-of-type{
+    grid-area: ai-title;
+    }
+.results_results:first-of-type{
+  grid-area: you-picked;
+}
+.results_results:last-of-type{
+  grid-area: ai-picked;
+}
+
+.results.show-winner{
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+  "you-title . ai-title"
+  "you-picked result-winner ai-picked";
+}
+
+.results_winner{
+  grid-area: result-winner;
+  display: grid;
+  place-items: center;
+}
+.results_text{
+  font-size: 3.5rem;
+  padding-bottom: 1.5rem;
+  
+}
+.play-again{
+  background: #fff;
+  outline: none;
+  border: 2px solid transparent;
+  border-radius: 0.6rem;
+  color: var(--dark-text); 
+  padding: 0.6rem 3.5rem;
+  font-family: inherit;
+  text-transform: inherit;
+  font-size: 1.3rem ;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+/* accessibility  to show the result because it was hidden in the html*/
+.play-again:focus{
+  border: 2px solid var(--outline);
+}
+/*rules button8*/
+.rules-btn{
+position: absolute;
+bottom: 2rem;
+right: 2rem;
+background: none;
+outline: none;
+border-radius: 0.6rem;
+color: var(--Light-text);
+padding: 0.6rem 2.5rem;
+font-family: inherit;
+text-transform: inherit;
+font-size: 1.3rem;
+letter-spacing: 0.1em;
+cursor: pointer;
+}
+.rules-btn:focus{
+  border: 2px solid#fff;
+}
+
+.modal{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  background: var(--mid-shadow);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.modal_container{
+  background: #fff;
+  border-radius: 0.5rem;
+}
+.modal_header{
+display: grid;
+display: flex;
+width: 100%;
+justify-content: space-between;
+padding: 2rem 2rem 1rem;
+}
+.modal_heading{
+  font-size: 1.5rem;
+  color: var(--dark-text);
+}
+.close-btn{
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  
+}
+
+.rules-img{
+  padding-left: 2rem; 
+  padding-right: 2rem;
+}
+.show-modal{
+  opacity: 1;
+  pointer-events: initial;
+}
+
+
+
+.preload *{
+  transition: none;
+}
+
+.hidden{
+  display: none;
+}

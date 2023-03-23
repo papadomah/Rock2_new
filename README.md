@@ -1,2 +1,2 @@
-# Rock2_new
-new rock
+# rock-paper-scissors
+rock-paper-scissors-figma design
